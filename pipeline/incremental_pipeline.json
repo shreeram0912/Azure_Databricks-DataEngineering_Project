@@ -85,7 +85,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from SalesOrders where Date > '@{activity('Last_Date').output.value[0].lastdate}' and Date <= '@{activity('Max_Date').output.value[0].maximumdate}'",
+							"value": "select * from SalesOrders where OrderDate > '@{activity('Last_Date').output.value[0].lastdate}' and OrderDate <= '@{activity('Max_Date').output.value[0].maximumdate}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
