@@ -1,0 +1,64 @@
+{
+	"name": "Github_to_SQLDatabaseTable",
+	"properties": {
+		"activities": [
+			{
+				"name": "Github_to_SQLTable",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dataset_github",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "buy_anything_sales.csv"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dataset_AzureSqlTable",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-02-22T17:59:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

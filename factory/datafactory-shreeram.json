@@ -1,0 +1,9 @@
+{
+	"name": "datafactory-shreeram",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "eae2bdb0-af5c-49a8-9bbc-91429e71ee72",
+		"tenantId": "cde94195-18ae-421b-b772-b3b6a96f00cc"
+	}
+}
