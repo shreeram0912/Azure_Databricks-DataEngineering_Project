@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactory-shreeram"
+		},
+		"LinkedService_AzureDatabricks_accessToken": {
+			"value": ""
+		},
+		"linkedservice_azuresqldatabase_password": {
+			"value": ""
+		},
+		"linkedservice_datalake_gen2_accountKey": {
+			"value": ""
+		},
+		"LinkedService_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "0222-191616-4vfxshi3"
+		},
+		"linkedservice_azuresqldatabase_properties_typeProperties_server": {
+			"value": "server-azuresqldatabase.database.windows.net"
+		},
+		"linkedservice_azuresqldatabase_properties_typeProperties_database": {
+			"value": "database-azure-sql"
+		},
+		"linkedservice_azuresqldatabase_properties_typeProperties_userName": {
+			"value": "ram"
+		},
+		"linkedservice_datalake_gen2_properties_typeProperties_url": {
+			"value": "https://datalakeazuredatabricks.dfs.core.windows.net/"
+		},
+		"linkedservice_github_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
