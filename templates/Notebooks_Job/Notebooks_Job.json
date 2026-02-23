@@ -1,0 +1,203 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name"
+		},
+		"LinkedService_AzureDatabricks": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Notebooks_Job')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Running notebook job of databricks directly in ADF.",
+				"activities": [
+					{
+						"name": "silver_notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/silver_layer/transformations"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "gold_DimCustomer",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "silver_notebook",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/gold/GoldDimCustomer"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "gold_DimProduct",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "silver_notebook",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/gold/GoldDimProduct"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "gold_DimDate",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "silver_notebook",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/gold/GoldDimDate"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "gold_DimRegion",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "silver_notebook",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/gold/DimSalesRegion"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Fact_Sales",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "gold_DimCustomer",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "gold_DimProduct",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "gold_DimDate",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "gold_DimRegion",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/shreeramprajapati2_gmail.com#ext#@shreeramprajapati2gmail.onmicrosoft.com/Azure_Databricks-DataEngineering_Project/gold/Fact_Sales"
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('LinkedService_AzureDatabricks')]",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}

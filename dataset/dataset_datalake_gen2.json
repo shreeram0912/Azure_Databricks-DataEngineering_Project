@@ -1,0 +1,19 @@
+{
+	"name": "dataset_datalake_gen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedservice_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
