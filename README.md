@@ -133,8 +133,11 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
+## **🙏 Acknowledgment**
+I would like to express my heartfelt gratitude to Console Flare YouTube channel whose content on Data Engineering and Azure technologies.
+
 ## 📬 Contact
 
 Created by **Shreeram** — for feedback or questions, open an issue or reach out via GitHub.
 
-Happy Data Engineering! 🚀
+Happy Data Engineering!
