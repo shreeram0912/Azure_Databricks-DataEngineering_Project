@@ -53,10 +53,11 @@ This project uses a **Medallion Architecture (Bronze → Silver → Gold)** to p
 
 | Layer / Tool | Purpose |
 |--------------|---------|
-| **Azure Data Factory** | Orchestration of data ingestion pipelines |
-| **Azure Data Lake Storage (Gen2)** | Scalable storage for raw and processed data |
-| **Azure Databricks** | Distributed processing & transformation using PySpark |
-| **Medallion Architecture** | Logical layering for quality, performance & governance |
+| **![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0072C6?logo=microsoftazure&logoColor=white)** | Orchestration of data ingestion pipelines |
+| **![Azure Data Lake Storage Gen2](https://img.shields.io/badge/Azure%20Data%20Lake%20Storage%20Gen2-0072C6?logo=microsoftazure&logoColor=white)** | Scalable storage for raw and processed data |
+| **![Azure Databricks](https://img.shields.io/badge/Azure%20Databricks-FF3621?logo=databricks&logoColor=white)** | Distributed processing & transformation using PySpark |
+| **![Medallion Architecture](https://img.shields.io/badge/Medallion%20Architecture-FFD700?logo=azuredevops&logoColor=black)** | Logical layering for quality, performance & governance |
+| **![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)** | CI/CD |
 ---
 
 ## 🚀 Setup & Deployment
@@ -129,12 +130,6 @@ Contributions, issues, and feature requests are welcome!
 3. Commit your changes (`git commit -m "feat: description"`)
 4. Push to your fork (`git push origin feature/your-feature`)
 5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is open-source and free to use under the [MIT License](LICENSE) — *if you choose to include one.*
 
 ---
 
