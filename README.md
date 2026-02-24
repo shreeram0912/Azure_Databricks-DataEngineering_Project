@@ -32,17 +32,20 @@ Azure_Databricks-DataEngineering_Project/
 ## 📊 Architecture
 
 This project uses a **Medallion Architecture (Bronze → Silver → Gold)** to process data:
+<img width="1438" height="575" alt="image" src="https://github.com/user-attachments/assets/32704d57-2157-41af-9e52-ca3462617be7" />
 
 1. **Bronze Layer – Raw ingestion:**  
-   * Raw data is loaded from the `dataset/` folder into Azure Data Lake using Azure Data Factory. :contentReference[oaicite:3]{index=3}
+   * Raw data is loaded from the `Github/buy_anything_sales.csv` file into Azure SQL Database using Azure Data Factory then ingested into Azure Data Lake Storage Gen2.
 
 2. **Silver Layer – Cleansing & Transformations:**  
-   * Azure Databricks handles cleaning, normalizing, and transforming raw records into analytical tables. :contentReference[oaicite:4]{index=4}
+   * Azure Databricks handles cleaning, normalizing, and transforming raw records into analytical tables.
 
 3. **Gold Layer – Analytics-ready data:**  
-   * Transformed data is aggregated/organized into gold-level tables for reporting, dashboards, or Machine Learning workflows. :contentReference[oaicite:5]{index=5}
+   * Transformed data is aggregated/organized into gold-level tables with star schema for reporting, dashboards, or Machine Learning workflows.
 
-**Diagram (optional):**  
+**Diagram:**  
+<img width="1165" height="570" alt="image" src="https://github.com/user-attachments/assets/b239d00d-fa67-4595-be70-cafc1ef0e236" />
+<img width="2000" height="909" alt="image" src="https://github.com/user-attachments/assets/d0a86611-31dc-442d-928c-2b437ee215fe" />
 
 ---
 
@@ -72,31 +75,48 @@ Before you begin, make sure you have:
 
 ### 💾 Data Ingestion (Bronze Layer)
 
-1. Upload your raw `.csv` files into the `dataset/` folder.
-2. Use Azure Data Factory to connect to this data source.
-3. Create a Copy Pipeline:
-   - Lookup all dataset paths.
-   - For each data file, copy into your Bronze container.
+1. **📌 Github_to_SQLDatabaseTable Pipeline**
+  * This pipeline copies a CSV file named buy_anything_sales.csv from a GitHub hosted dataset.
+  * It reads the file using a delimited text (CSV) format.
+  * The pipeline writes the data into an Azure SQL Database Table.
+  * It uses a direct insert operation without staging intermediate storage.
+  * Data type conversions are managed automatically during the copy process.
+
+2. **📌 incremental_pipeline Pipeline**
+  * This pipeline implements incremental data loading using watermarking.
+  * It first looks up the last processed date from a SQL dateholder table.
+  * Then it finds the latest date from the SalesOrders table for new data.
+  * Only records with OrderDate greater than the last processed date are copied to Data Lake in Parquet format.
+  * Finally, the pipeline updates the dateholder table with the newest date processed.
 
 _Please replace connection strings and service credentials in linkedService configs before deploying._
 
 ---
 
 ### 🔄 Transformation (Silver & Gold)
+  * The pipeline triggers an Azure Databricks Notebook job using a Databricks-linked service in Azure Data Factory.
+  * It runs one or more Databricks notebooks that contain your data transformation logic in Spark.
+  * The activity specifies the notebook path and can pass parameters into the notebook if configured.
+  * ADF orchestrates execution by submitting the notebook task to Databricks, where the code is executed on a Spark cluster.
+  * The notebook output (success/failure and logs) is returned to the pipeline run for monitoring.
 
+* **How to Use:**
 1. Import `templates/Notebooks_Job/*` into Azure Databricks.
 2. Configure your cluster and secrets (for secure ADLS access).
 3. Run notebooks in sequence: Bronze → Silver → Gold.
 4. Save transformed data back to ADLS.
 
+<img width="1966" height="1125" alt="image" src="https://github.com/user-attachments/assets/be063a61-2d45-4e17-b6cd-ff1a2058cd80" />
+<img width="1526" height="1125" alt="image" src="https://github.com/user-attachments/assets/b13267ba-3e3c-4f49-a29b-6ae1d1ac0958" />
+
 ---
 
 ## 💡 Project Highlights
 
-- Implements a scalable ELT pipeline following best practices. :contentReference[oaicite:6]{index=6}
-- Bronze → Silver → Gold layering for data quality & analytics readiness. :contentReference[oaicite:7]{index=7}
-- Modular metadata-driven ingestion using Azure Data Factory. :contentReference[oaicite:8]{index=8}
-- PySpark transformations in Azure Databricks for performance & flexibility. :contentReference[oaicite:9]{index=9}
+- Implements a scalable ELT pipeline following best practices. 
+- Bronze → Silver → Gold layering for data quality & analytics readiness.
+- Dynamic Incremental ingestion using Azure Data Factory.
+- PySpark transformations in Azure Databricks for performance & flexibility.
 
 ---
 
@@ -123,4 +143,3 @@ This project is open-source and free to use under the [MIT License](LICENSE) —
 Created by **Shreeram** — for feedback or questions, open an issue or reach out via GitHub.
 
 Happy Data Engineering! 🚀
-::contentReference[oaicite:10]{index=10}
