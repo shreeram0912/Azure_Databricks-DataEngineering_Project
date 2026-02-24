@@ -140,4 +140,4 @@ I would like to express my heartfelt gratitude to Console Flare YouTube channel 
 
 Created by **Shreeram** — for feedback or questions, open an issue or reach out via GitHub.
 
-Happy Data Engineering!
+![Static Badge](https://img.shields.io/badge/Happy-DataEngineering!-blue)
